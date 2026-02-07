@@ -286,3 +286,86 @@
     })();
 
 })(jQuery);
+
+(function() {
+    "use strict";
+
+    var projectsById = {
+        "project-01": {
+            title: "Document Verification Platform (Blockchain)",
+            description: "Blockchain-backed document verification with smart contract validation.",
+            demoUrl: "images/portfolio/DEMO.mp4",
+            codeUrl: "https://github.com/MaanekSharma/BlockchainDocumentVerification"
+        },
+        "project-02": {
+            title: "Loan Repayment App",
+            description: "Android app for managing student loan schedules and payments.",
+            demoUrl: "images/portfolio/demo2.mp4",
+            codeUrl: "https://github.com/Kmaihaa/Student-Loan-App"
+        },
+        "project-03": {
+            title: "League of Legends Summoner Search",
+            description: "React-based UI for querying League profiles and match stats.",
+            demoUrl: "https://maaneksharma.github.io",
+            codeUrl: "https://github.com/MaanekSharma/League-of-Legends-Summoner-Search"
+        },
+        "project-04": {
+            title: "MS Paint Rework",
+            description: "Python remake of classic MS Paint with drawing tools.",
+            demoUrl: "https://maaneksharma.github.io",
+            codeUrl: "https://github.com/MaanekSharma/Paint"
+        },
+        "project-05": {
+            title: "Arkanoid",
+            description: "Java-based Arkanoid clone with collision and scoring.",
+            demoUrl: "https://maaneksharma.github.io",
+            codeUrl: "https://github.com/MaanekSharma/Arkanoid"
+        }
+    };
+
+    var renderDetails = function(detailsEl, project) {
+        var safeTitle = project.title || "Project";
+        var safeDescription = project.description || "";
+        var demoUrl = project.demoUrl || "#";
+        var codeUrl = project.codeUrl || "#";
+
+        detailsEl.innerHTML = [
+            '<h3 class="explorer__details-title">', safeTitle, "</h3>",
+            '<p class="explorer__details-desc">', safeDescription, "</p>",
+            '<div class="explorer__details-links">',
+            '<a class="explorer__details-link" href="', demoUrl, '" target="_blank" rel="noopener">Demo</a>',
+            '<a class="explorer__details-link" href="', codeUrl, '" target="_blank" rel="noopener">Code</a>',
+            "</div>"
+        ].join("");
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var explorerItems = document.querySelectorAll(".explorer__item[data-project-id]");
+        var detailsEl = document.querySelector(".explorer__details");
+
+        if (!explorerItems.length || !detailsEl) {
+            return;
+        }
+
+        var setActiveItem = function(item) {
+            explorerItems.forEach(function(node) {
+                node.classList.remove("is-active");
+            });
+            item.classList.add("is-active");
+
+            var projectId = item.dataset.projectId;
+            var project = projectsById[projectId];
+            if (project) {
+                renderDetails(detailsEl, project);
+            }
+        };
+
+        explorerItems.forEach(function(item) {
+            item.addEventListener("click", function() {
+                setActiveItem(item);
+            });
+        });
+
+        setActiveItem(explorerItems[0]);
+    });
+})();
