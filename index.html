@@ -41,42 +41,59 @@
 
     <!-- site header
     ================================================== -->
-    <header class="s-header">
-
-        <nav class="header-nav-wrap">
+    <header class="s-header s-header--glass">
+        <nav class="header-nav-wrap header-nav-wrap--center">
+            <div class="header-brand">
+                <a class="header-logo" href="#intro">Maanek</a>
+            </div>
             <ul class="header-main-nav">
                 <li class="current"><a class="smoothscroll" href="#intro" title="intro">Home</a></li>
                 <li><a class="smoothscroll" href="#about" title="about">About</a></li>
                 <li><a class="smoothscroll" href="#projects" title="projects">Projects</a></li>
-                <li><a class="smoothscroll" href="#contact" title="contact us">Contact</a></li>	
+                <li><a class="smoothscroll" href="#contact" title="contact">Contact</a></li>
             </ul>
-
-            <ul class="header-social">
-                <li><a href="https://github.com/MaanekSharma"><i class="fab fa-github" aria-hidden="true"></i></a></li>
-                <li><a href="https://www.linkedin.com/in/maanek-sharma/"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
-            </ul>
+            <div class="header-actions">
+                <a class="header-icon" href="https://github.com/MaanekSharma" aria-label="Github">
+                    <i class="fab fa-github" aria-hidden="true"></i>
+                </a>
+                <a class="header-icon" href="https://www.linkedin.com/in/maanek-sharma/" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin" aria-hidden="true"></i>
+                </a>
+                <a class="button button--pill" href="#contact">Let’s build</a>
+            </div>
         </nav>
-
         <a class="header-menu-toggle" href="#"><span>Menu</span></a>
-
     </header> <!-- end s-header -->
 
 
     <!-- intro
     ================================================== -->
     <section id="intro" class="s-intro target-section">
+        <div class="intro-ambient">
+            <span class="intro-ambient__orb orb--one"></span>
+            <span class="intro-ambient__orb orb--two"></span>
+            <span class="intro-ambient__orb orb--three"></span>
+            <span class="intro-ambient__spark spark--one"></span>
+            <span class="intro-ambient__spark spark--two"></span>
+        </div>
         <div class="row intro-content">
-            <div class="column large-9 mob-full intro-text">
-                
+            <div class="column large-10 mob-full intro-text">
+                <div class="intro-badge">Open to new opportunities</div>
                 <h1>
-                    Hi, <br>
-                    I'm Maanek Sharma <br>
+                    Maanek Sharma
                 </h1>
                 <h3>
-                    Welcome to the showcase
+                    Building secure, elegant systems that automate the busy work.
                 </h3>
+                <p class="intro-subtitle">
+                    Computer Science graduate specializing in automation, security, and high-impact workflows for
+                    financial and consulting teams.
+                </p>
+                <div class="intro-actions">
+                    <a class="button button--primary" href="#projects">View projects</a>
+                    <a class="button button--ghost" href="#contact">Start a conversation</a>
+                </div>
             </div>
-            <div class="intro-grid"></div>
         </div> <!-- end row -->
     </section> <!-- end intro -->
 
@@ -84,181 +101,93 @@
     <!-- about
     ================================================== -->
     <section id="about" class="s-about target-section">
-
         <div class="about-me">
-
             <div class="row about-me__content" data-aos="fade-up">
                 <div class="column large-full about-me__text">
-                    <p class="lead" style = "color: #ffffff;">
-                        Hello! I’m Maanek Sharma, a Computer Science graduate from the University of Windsor.<br><br>
-                        I’ve worked with Canada’s leading financial and consulting firms—automating critical workflows,  
-                        streamlining compliance reporting, and bolstering their security posture.<br><br>
-                        Growing up, I always heard that “safety is the number one priority,” and I believe that principle  
-                        applies not only to our physical and mental well-being but to our digital lives as well.<br><br>
-                        Technology’s rapid advancement has been a true blessing for humanity, and I’m passionate about  
-                        being on the front lines of securing it for the future.
-
+                    <h2 class="section-title">Made for always-on security work</h2>
+                    <p class="lead">
+                        Hello! I’m Maanek Sharma, a Computer Science graduate from the University of Windsor.
+                        I’ve partnered with Canada’s leading financial and consulting firms—automating critical workflows,
+                        streamlining compliance reporting, and strengthening security posture.
+                    </p>
+                    <p class="lead">
+                        I build systems that anticipate risk, reduce manual effort, and keep teams focused on high-value
+                        decisions. My mission is to deliver resilient automation that protects the future of digital work.
                     </p>
                 </div>
             </div>
-    
         </div> <!-- end about-me -->
     </section> <!-- end s-about -->
 
     <!-- works
     ================================================== -->
     <section id="projects" class="s-projects ss-dark target-section">
-
         <div class="row heading-block heading-block--center" data-aos="fade-up">
             <div class="column large-full">
-                <h2 class="section-heading section-heading--centerbottom"></h2>
+                <h2 class="section-heading section-heading--centerbottom">Highlighted projects</h2>
                 <p class="section-desc">
-                    Projects
+                    High-impact builds that blend security, automation, and thoughtful product execution.
                 </p>
             </div>
         </div> <!-- end heading-block -->
 
-        <div class="masonry-wrap">
-
-            <div class="masonry">
-                <div class="grid-sizer"></div>
-    
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                        <div class="item-folio__thumb">
-                            <a href="images/portfolio/gallery/blockchain.png" class="thumb-link" title="Search" data-size="1050x700">
-                                <video width="100%" controls poster="images/portfolio/blockchain.png" style="border-radius: 8px;">
-                                    <source src="images/portfolio/DEMO.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </a>    
-                            <a href="https://github.com/MaanekSharma/BlockchainDocumentVerification" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-    
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                Document Verification Platform (Blockchain)
-                            </h4>
-                            <p class="item-folio__cat">
-                                Solidity, Django, Python (Web3) 
-                            </p>
-                        </div>
-    
-                    </div>
-                </div> <!-- end masonry__brick -->
-                
-                
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                        <div class="item-folio__thumb">
-                            <a href="images/portfolio/gallery/welcome page.png" class="thumb-link" title="Search" data-size="1050x700">
-                                <video width="100%" controls poster="images/portfolio/welcome page.png" style="border-radius: 8px;">
-                                    <source src="images/portfolio/demo2.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </a>    
-                            <a href="https://github.com/Kmaihaa/Student-Loan-App" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-    
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                Loan Repayment App
-                            </h4>
-                            <p class="item-folio__cat">
-                                Kotlin, Java, Android Studio
-                            </p>
-                        </div>
-    
-                    </div>
-                </div> <!-- end masonry__brick -->
-
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                        <div class="item-folio__thumb">
-                            <a href="images/portfolio/gallery/LoL-Summoner-Search.png" class="thumb-link" title="Search" data-size="1050x700">
-                                <img src="images/portfolio/LoL-Summoner-Search.png" alt="">
-                            </a>    
-                            <a href="https://github.com/MaanekSharma/League-of-Legends-Summoner-Search" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-    
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                League of Legends Summoner Search
-                            </h4>
-                            <p class="item-folio__cat">
-                                React
-                            </p>
-                        </div>
-    
-                    </div>
-                </div> <!-- end masonry__brick -->
-    
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                        <div class="item-folio__thumb">
-                            <a href="images/portfolio/gallery/Paint.png" class="thumb-link" title="Paint" data-size="1050x700">
-                                <img src="images/portfolio/Paint.png" alt="">
-                            </a>
-                            <a href="https://github.com/MaanekSharma/Paint" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                MS Paint Rework
-                            </h4>
-                            <p class="item-folio__cat">
-                                Python 
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- end masonry__brick -->
-
-                <div class="masonry__brick" data-aos="fade-up">
-                    <div class="item-folio">
-                            
-                        <div class="item-folio__thumb">
-                            <a href="images/portfolio/gallery/Arkanoid.png" class="thumb-link" title="Arkanoid" data-size="1050x700">
-                                <img src="images/portfolio/Arkanoid.png" alt="">
-                            </a>
-                            <a href="https://github.com/MaanekSharma/Arkanoid" class="item-folio__project-link" title="Project link" target="_blank"></a>
-                        </div>
-                        <div class="item-folio__text">
-                            <h4 class="item-folio__title">
-                                Arkanoid 
-                            </h4>
-                            <p class="item-folio__cat">
-                                Java
-                            </p>
-                        </div>
-                        
-                    </div>
-                </div> <!-- end masonry__brick -->
-            </div> <!-- end masonry -->
-
-        </div> <!-- end masonry-wrap -->
-
+        <div class="row project-grid" data-aos="fade-up">
+            <article class="project-card">
+                <div class="project-card__header">
+                    <h3>Document Verification Platform</h3>
+                    <span>Solidity · Django · Python</span>
+                </div>
+                <p>
+                    Built a blockchain-powered verification system that automates trust signals for critical documents
+                    and reduces manual review time.
+                </p>
+                <a class="project-link" href="https://github.com/MaanekSharma/BlockchainDocumentVerification" target="_blank" rel="noreferrer">View repo</a>
+            </article>
+            <article class="project-card">
+                <div class="project-card__header">
+                    <h3>Loan Repayment App</h3>
+                    <span>Kotlin · Java · Android Studio</span>
+                </div>
+                <p>
+                    Designed a smart repayment flow with alerts and schedules that keep users ahead of payments with
+                    minimal effort.
+                </p>
+                <a class="project-link" href="https://github.com/Kmaihaa/Student-Loan-App" target="_blank" rel="noreferrer">View repo</a>
+            </article>
+            <article class="project-card">
+                <div class="project-card__header">
+                    <h3>League Summoner Search</h3>
+                    <span>React · API Integration</span>
+                </div>
+                <p>
+                    A fast, responsive UI that delivers player stats with clean data visualization and intuitive search.
+                </p>
+                <a class="project-link" href="https://github.com/MaanekSharma/League-of-Legends-Summoner-Search" target="_blank" rel="noreferrer">View repo</a>
+            </article>
+        </div>
     </section> <!-- end s-work -->
 
     <!-- contact
     ================================================== -->
-    <section id="contact" class="s-contact ss-dark target-section" >
-        
+    <section id="contact" class="s-contact ss-dark target-section">
         <div class="row contact-infos" data-aos="fade-up" data-aos-anchor=".contact-main">
-            <br><br><br><br><br><br>
-            <p>Ready to connect, create, and conquer the future.</p>
-
-            
+            <div class="column large-full contact-cta">
+                <h2>Let’s design your next secure workflow.</h2>
+                <p>Ready to connect, create, and protect the future of digital work.</p>
+                <div class="contact-actions">
+                    <a class="button button--primary" href="mailto:maaneksharma@gmail.com">Email me</a>
+                    <a class="button button--ghost" href="https://www.linkedin.com/in/maanek-sharma/">Connect on LinkedIn</a>
+                </div>
+            </div>
 
             <div class="column large-7 medium-full contact-social">
                 <h4>Socials</h4>
                 <ul>
-                    
                     <li><a href="https://www.linkedin.com/in/maanek-sharma/" title="LinkedIn">LinkedIn</a></li>
                     <li><a href="https://github.com/MaanekSharma" title="Github">Github</a></li>
                 </ul>
             </div>
-
         </div> <!-- Contact Links -->
-
     </section> <!-- Contact END -->
 
     <!-- Java Script
