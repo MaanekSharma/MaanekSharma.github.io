@@ -320,30 +320,55 @@
 
    /* Mobile Menu
     * ---------------------------------------------------- */ 
-    var ssMobileMenu = function() {
+   var ssMobileMenu = function() {
 
         var toggleButton = $('.header-menu-toggle'),
-            nav = $('.header-nav-wrap');
+            nav = $('.header-nav-wrap'),
+            body = $('body');
+
+        var closeMenu = function() {
+            toggleButton.removeClass('is-clicked');
+            body.removeClass('menu-is-open');
+            nav.stop(true, true).slideUp();
+        };
+
+        var openMenu = function() {
+            toggleButton.addClass('is-clicked');
+            body.addClass('menu-is-open');
+            nav.stop(true, true).slideDown();
+        };
 
         toggleButton.on('click', function(event){
             event.preventDefault();
 
-            toggleButton.toggleClass('is-clicked');
-            nav.slideToggle();
+            if (toggleButton.hasClass('is-clicked')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
         });
 
         if (toggleButton.is(':visible')) nav.addClass('mobile');
 
         $WIN.on('resize', function() {
-            if (toggleButton.is(':visible')) nav.addClass('mobile');
-            else nav.removeClass('mobile');
+            if (toggleButton.is(':visible')) {
+                nav.addClass('mobile');
+
+                if (!toggleButton.hasClass('is-clicked')) {
+                    nav.removeAttr('style');
+                }
+            }
+            else {
+                nav.removeClass('mobile').removeAttr('style');
+                toggleButton.removeClass('is-clicked');
+                body.removeClass('menu-is-open');
+            }
         });
 
         nav.find('a').on("click", function() {
 
-            if (nav.hasClass('mobile')) {
-                toggleButton.toggleClass('is-clicked');
-                nav.slideToggle(); 
+            if (nav.hasClass('mobile') && toggleButton.hasClass('is-clicked')) {
+                closeMenu();
             }
         });
 
@@ -379,76 +404,6 @@
         
     };
 
-
-   /* Masonry
-    * ---------------------------------------------------- */ 
-    var ssMasonryFolio = function () {
-        
-        var containerBricks = $('.masonry');
-
-        containerBricks.imagesLoaded(function () {
-            containerBricks.masonry({
-                itemSelector: '.masonry__brick',
-                resize: true
-            });
-        });
-
-    };
-
-
-   /* photoswipe
-    * ----------------------------------------------------- */
-    var ssPhotoswipe = function() {
-        var items = [],
-            $pswp = $('.pswp')[0],
-            $folioItems = $('.item-folio');
-
-        // get items
-        $folioItems.each( function(i) {
-
-            var $folio = $(this),
-                $thumbLink =  $folio.find('.thumb-link'),
-                $title = $folio.find('.item-folio__title'),
-                $caption = $folio.find('.item-folio__caption'),
-                $titleText = '<h4>' + $.trim($title.html()) + '</h4>',
-                $captionText = $.trim($caption.html()),
-                $href = $thumbLink.attr('href'),
-                $size = $thumbLink.data('size').split('x'),
-                $width  = $size[0],
-                $height = $size[1];
-        
-            var item = {
-                src  : $href,
-                w    : $width,
-                h    : $height
-            }
-
-            if ($caption.length > 0) {
-                item.title = $.trim($titleText + $captionText);
-            }
-
-            items.push(item);
-        });
-
-        // bind click event
-        $folioItems.each(function(i) {
-
-            $(this).find('.thumb-link').on('click', function(e) {
-                e.preventDefault();
-                var options = {
-                    index: i,
-                    showHideOpacity: true
-                }
-
-                // initialize PhotoSwipe
-                var lightBox = new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options);
-                lightBox.init();
-            });
-
-        });
-    };
-
-
    /* slick slider
     * ------------------------------------------------------ */
     var ssSlickSlider = function() {
@@ -469,17 +424,32 @@
 
    /* Smooth Scrolling
     * ------------------------------------------------------ */
-    var ssSmoothScroll = function() {
+   var ssSmoothScroll = function() {
+
+        var getHeaderOffset = function(target) {
+            var header = $('.s-header');
+
+            if (!header.length || target === '#intro') {
+                return 0;
+            }
+
+            return header.outerHeight() || 0;
+        };
         
         $('.smoothscroll').on('click', function (e) {
             var target = this.hash,
-            $target    = $(target);
+            $target    = $(target),
+            scrollPosition;
+
+            if (!$target.length) return;
             
-                e.preventDefault();
-                e.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
+
+            scrollPosition = Math.max($target.offset().top - getHeaderOffset(target), 0);
 
             $('html, body').stop().animate({
-                'scrollTop': $target.offset().top
+                'scrollTop': scrollPosition
             }, cfg.scrollDuration, 'swing').promise().done(function () {
 
                 // check if menu is open
@@ -487,7 +457,11 @@
                     $('.header-menu-toggle').trigger('click');
                 }
 
-                window.location.hash = target;
+                if (window.history && window.history.pushState) {
+                    window.history.pushState(null, null, target);
+                } else {
+                    window.location.hash = target;
+                }
             });
         });
 
@@ -530,8 +504,6 @@
         ssMenuOnScrolldown();
         ssMobileMenu();
         ssWaypoints();
-        ssMasonryFolio();
-        ssPhotoswipe();
         ssSlickSlider();
         ssSmoothScroll();
         ssAlertBoxes();
