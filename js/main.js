@@ -20,256 +20,264 @@
     doc.setAttribute('data-useragent', navigator.userAgent);
 
 
-   /* Intro Checkerboard
+   /* Checkerboards
     * ------------------------------------------------------ */
-    var ssIntroCheckerboard = function() {
+    var ssCheckerboards = function() {
 
-        var intro = document.querySelector('.s-intro'),
-            board = intro ? intro.querySelector('.intro-board') : null;
+        var surfaces = document.querySelectorAll('.checkerboard-surface');
 
-        if (!intro || !board) return;
+        if (!surfaces.length) return;
 
-        var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)'),
-            finePointerQuery = window.matchMedia('(hover: hover) and (pointer: fine)'),
-            state = {
-                columns: 0,
-                rows: 0,
-                cellWidth: 0,
-                cellHeight: 0,
-                cells: [],
-                resizeFrame: null,
-                moveFrame: null,
-                ambientTimer: null,
-                pointerX: -9999,
-                pointerY: -9999
+        var setupBoard = function(surface) {
+            var board = surface.querySelector('.checkerboard-board');
+
+            if (!board) return;
+
+            var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)'),
+                finePointerQuery = window.matchMedia('(hover: hover) and (pointer: fine)'),
+                isIntroSurface = surface.classList.contains('s-intro'),
+                state = {
+                    columns: 0,
+                    rows: 0,
+                    cellWidth: 0,
+                    cellHeight: 0,
+                    cells: [],
+                    resizeFrame: null,
+                    moveFrame: null,
+                    ambientTimer: null,
+                    pointerX: -9999,
+                    pointerY: -9999
+                };
+
+            var getCellSize = function(width) {
+                if (width <= 600) return isIntroSurface ? 18 : 20;
+                if (width <= 800) return isIntroSurface ? 24 : 26;
+                return isIntroSurface ? 30 : 34;
             };
 
-        var getCellSize = function(width) {
-            if (width <= 600) return 18;
-            if (width <= 800) return 24;
-            return 30;
-        };
+            var refreshCellGeometry = function() {
+                state.cells.forEach(function(cell) {
+                    cell.centerX = (cell.column + 0.5) * state.cellWidth;
+                    cell.centerY = (cell.row + 0.5) * state.cellHeight;
+                });
+            };
 
-        var refreshCellGeometry = function() {
-            state.cells.forEach(function(cell) {
-                cell.centerX = (cell.column + 0.5) * state.cellWidth;
-                cell.centerY = (cell.row + 0.5) * state.cellHeight;
-            });
-        };
+            var activateCell = function(cell, intensity, hold) {
+                if (!cell) return;
 
-        var activateCell = function(cell, intensity, hold) {
-            if (!cell) return;
-
-            if (cell.timeoutId) {
-                window.clearTimeout(cell.timeoutId);
-            }
-
-            cell.el.style.setProperty('--tile-glow', (0.18 + (intensity * 0.42)).toFixed(2));
-            cell.el.style.setProperty('--flip-angle', (176 + (intensity * 10)).toFixed(2) + 'deg');
-            cell.el.classList.add('is-active');
-
-            cell.timeoutId = window.setTimeout(function() {
-                cell.el.classList.remove('is-active');
-            }, hold);
-        };
-
-        var activateCluster = function(originX, originY, radius, holdBase) {
-            if (!state.cells.length) return;
-
-            var centerColumn = Math.max(0, Math.min(state.columns - 1, Math.floor(originX / state.cellWidth))),
-                centerRow = Math.max(0, Math.min(state.rows - 1, Math.floor(originY / state.cellHeight))),
-                horizontalSpan = Math.max(1, Math.ceil(radius / state.cellWidth)),
-                verticalSpan = Math.max(1, Math.ceil(radius / state.cellHeight)),
-                row, column, cell, dx, dy, distance, intensity, hold;
-
-            for (row = centerRow - verticalSpan; row <= centerRow + verticalSpan; row += 1) {
-                if (row < 0 || row >= state.rows) continue;
-
-                for (column = centerColumn - horizontalSpan; column <= centerColumn + horizontalSpan; column += 1) {
-                    if (column < 0 || column >= state.columns) continue;
-
-                    cell = state.cells[(row * state.columns) + column];
-                    dx = cell.centerX - originX;
-                    dy = cell.centerY - originY;
-                    distance = Math.sqrt((dx * dx) + (dy * dy));
-
-                    if (distance > radius) continue;
-
-                    intensity = 1 - (distance / radius);
-                    hold = holdBase + Math.round((1 - intensity) * 120) + (((row + column) % 3) * 35);
-                    activateCell(cell, intensity, hold);
-                }
-            }
-        };
-
-        var processPointer = function() {
-            state.moveFrame = null;
-            activateCluster(
-                state.pointerX,
-                state.pointerY,
-                Math.max(state.cellWidth, state.cellHeight) * 1.75,
-                240
-            );
-        };
-
-        var onPointerMove = function(event) {
-            if (!finePointerQuery.matches || reducedMotionQuery.matches || !state.cells.length) return;
-
-            var rect = intro.getBoundingClientRect();
-
-            state.pointerX = event.clientX - rect.left;
-            state.pointerY = event.clientY - rect.top;
-
-            if (state.pointerX < 0 || state.pointerX > rect.width || state.pointerY < 0 || state.pointerY > rect.height) {
-                return;
-            }
-
-            if (state.moveFrame) return;
-
-            state.moveFrame = window.requestAnimationFrame(processPointer);
-        };
-
-        var stopAmbient = function() {
-            if (!state.ambientTimer) return;
-
-            window.clearInterval(state.ambientTimer);
-            state.ambientTimer = null;
-        };
-
-        var runAmbientPulse = function() {
-            if (!state.cells.length || finePointerQuery.matches || reducedMotionQuery.matches) return;
-
-            var anchorColumn = Math.floor(Math.random() * state.columns),
-                anchorRow = Math.floor(Math.random() * state.rows),
-                sweep = Math.random() > 0.55,
-                row, column, cell, distance, intensity, hold;
-
-            if (sweep) {
-                row = anchorRow;
-
-                for (column = 0; column < state.columns; column += 1) {
-                    cell = state.cells[(row * state.columns) + column];
-                    distance = Math.abs(column - anchorColumn);
-
-                    if (distance > 3) continue;
-
-                    intensity = 1 - (distance / 4);
-                    hold = 260 + (column * 12);
-                    activateCell(cell, intensity * 0.85, hold);
-                }
-
-                return;
-            }
-
-            activateCluster(
-                (anchorColumn + 0.5) * state.cellWidth,
-                (anchorRow + 0.5) * state.cellHeight,
-                Math.max(state.cellWidth, state.cellHeight) * 1.8,
-                280
-            );
-        };
-
-        var startAmbient = function() {
-            stopAmbient();
-
-            if (finePointerQuery.matches || reducedMotionQuery.matches) return;
-
-            runAmbientPulse();
-            state.ambientTimer = window.setInterval(runAmbientPulse, 1400);
-        };
-
-        var buildBoard = function() {
-            var rect = intro.getBoundingClientRect(),
-                width = Math.max(intro.clientWidth, Math.round(rect.width)),
-                height = Math.max(intro.clientHeight, Math.round(rect.height)),
-                targetSize = getCellSize(width),
-                columns = Math.max(1, Math.ceil(width / targetSize)),
-                rows = Math.max(1, Math.ceil(height / targetSize)),
-                fragment, row, column, cellElement;
-
-            state.cellWidth = width / columns;
-            state.cellHeight = height / rows;
-
-            if (columns === state.columns && rows === state.rows) {
-                refreshCellGeometry();
-                startAmbient();
-                return;
-            }
-
-            stopAmbient();
-
-            state.cells.forEach(function(cell) {
                 if (cell.timeoutId) {
                     window.clearTimeout(cell.timeoutId);
                 }
-            });
 
-            state.columns = columns;
-            state.rows = rows;
-            state.cells = [];
-            board.innerHTML = '';
-            board.style.setProperty('--board-columns', columns);
-            board.style.setProperty('--board-rows', rows);
+                cell.el.style.setProperty('--tile-glow', (0.18 + (intensity * 0.42)).toFixed(2));
+                cell.el.style.setProperty('--flip-angle', (176 + (intensity * 10)).toFixed(2) + 'deg');
+                cell.el.classList.add('is-active');
 
-            fragment = document.createDocumentFragment();
+                cell.timeoutId = window.setTimeout(function() {
+                    cell.el.classList.remove('is-active');
+                }, hold);
+            };
 
-            for (row = 0; row < rows; row += 1) {
-                for (column = 0; column < columns; column += 1) {
-                    cellElement = document.createElement('span');
-                    cellElement.className = 'intro-board__cell';
+            var activateCluster = function(originX, originY, radius, holdBase) {
+                if (!state.cells.length) return;
 
-                    if ((row + column) % 2 === 1) {
-                        cellElement.className += ' intro-board__cell--alt';
+                var centerColumn = Math.max(0, Math.min(state.columns - 1, Math.floor(originX / state.cellWidth))),
+                    centerRow = Math.max(0, Math.min(state.rows - 1, Math.floor(originY / state.cellHeight))),
+                    horizontalSpan = Math.max(1, Math.ceil(radius / state.cellWidth)),
+                    verticalSpan = Math.max(1, Math.ceil(radius / state.cellHeight)),
+                    row, column, cell, dx, dy, distance, intensity, hold;
+
+                for (row = centerRow - verticalSpan; row <= centerRow + verticalSpan; row += 1) {
+                    if (row < 0 || row >= state.rows) continue;
+
+                    for (column = centerColumn - horizontalSpan; column <= centerColumn + horizontalSpan; column += 1) {
+                        if (column < 0 || column >= state.columns) continue;
+
+                        cell = state.cells[(row * state.columns) + column];
+                        dx = cell.centerX - originX;
+                        dy = cell.centerY - originY;
+                        distance = Math.sqrt((dx * dx) + (dy * dy));
+
+                        if (distance > radius) continue;
+
+                        intensity = 1 - (distance / radius);
+                        hold = holdBase + Math.round((1 - intensity) * 120) + (((row + column) % 3) * 35);
+                        activateCell(cell, intensity, hold);
+                    }
+                }
+            };
+
+            var processPointer = function() {
+                state.moveFrame = null;
+                activateCluster(
+                    state.pointerX,
+                    state.pointerY,
+                    Math.max(state.cellWidth, state.cellHeight) * 1.75,
+                    240
+                );
+            };
+
+            var onPointerMove = function(event) {
+                if (!finePointerQuery.matches || reducedMotionQuery.matches || !state.cells.length) return;
+
+                var rect = surface.getBoundingClientRect();
+
+                state.pointerX = event.clientX - rect.left;
+                state.pointerY = event.clientY - rect.top;
+
+                if (state.pointerX < 0 || state.pointerX > rect.width || state.pointerY < 0 || state.pointerY > rect.height) {
+                    return;
+                }
+
+                if (state.moveFrame) return;
+
+                state.moveFrame = window.requestAnimationFrame(processPointer);
+            };
+
+            var stopAmbient = function() {
+                if (!state.ambientTimer) return;
+
+                window.clearInterval(state.ambientTimer);
+                state.ambientTimer = null;
+            };
+
+            var runAmbientPulse = function() {
+                if (!state.cells.length || finePointerQuery.matches || reducedMotionQuery.matches) return;
+
+                var anchorColumn = Math.floor(Math.random() * state.columns),
+                    anchorRow = Math.floor(Math.random() * state.rows),
+                    sweep = Math.random() > 0.55,
+                    row, column, cell, distance, intensity, hold;
+
+                if (sweep) {
+                    row = anchorRow;
+
+                    for (column = 0; column < state.columns; column += 1) {
+                        cell = state.cells[(row * state.columns) + column];
+                        distance = Math.abs(column - anchorColumn);
+
+                        if (distance > 3) continue;
+
+                        intensity = 1 - (distance / 4);
+                        hold = 260 + (column * 12);
+                        activateCell(cell, intensity * 0.85, hold);
                     }
 
-                    fragment.appendChild(cellElement);
-                    state.cells.push({
-                        el: cellElement,
-                        row: row,
-                        column: column,
-                        centerX: 0,
-                        centerY: 0,
-                        timeoutId: null
-                    });
+                    return;
                 }
-            }
 
-            board.appendChild(fragment);
-            refreshCellGeometry();
-            startAmbient();
-        };
+                activateCluster(
+                    (anchorColumn + 0.5) * state.cellWidth,
+                    (anchorRow + 0.5) * state.cellHeight,
+                    Math.max(state.cellWidth, state.cellHeight) * 1.8,
+                    280
+                );
+            };
 
-        var queueBuild = function() {
-            if (state.resizeFrame) {
-                window.cancelAnimationFrame(state.resizeFrame);
-            }
+            var startAmbient = function() {
+                stopAmbient();
 
-            state.resizeFrame = window.requestAnimationFrame(function() {
-                state.resizeFrame = null;
-                buildBoard();
+                if (finePointerQuery.matches || reducedMotionQuery.matches) return;
+
+                runAmbientPulse();
+                state.ambientTimer = window.setInterval(runAmbientPulse, 1400);
+            };
+
+            var buildBoard = function() {
+                var rect = surface.getBoundingClientRect(),
+                    width = Math.max(surface.clientWidth, Math.round(rect.width)),
+                    height = Math.max(surface.clientHeight, Math.round(rect.height)),
+                    targetSize = getCellSize(width),
+                    columns = Math.max(1, Math.ceil(width / targetSize)),
+                    rows = Math.max(1, Math.ceil(height / targetSize)),
+                    fragment, row, column, cellElement;
+
+                state.cellWidth = width / columns;
+                state.cellHeight = height / rows;
+
+                if (columns === state.columns && rows === state.rows) {
+                    refreshCellGeometry();
+                    startAmbient();
+                    return;
+                }
+
+                stopAmbient();
+
+                state.cells.forEach(function(cell) {
+                    if (cell.timeoutId) {
+                        window.clearTimeout(cell.timeoutId);
+                    }
+                });
+
+                state.columns = columns;
+                state.rows = rows;
+                state.cells = [];
+                board.innerHTML = '';
+                board.style.setProperty('--board-columns', columns);
+                board.style.setProperty('--board-rows', rows);
+
+                fragment = document.createDocumentFragment();
+
+                for (row = 0; row < rows; row += 1) {
+                    for (column = 0; column < columns; column += 1) {
+                        cellElement = document.createElement('span');
+                        cellElement.className = 'checkerboard-board__cell';
+
+                        if ((row + column) % 2 === 1) {
+                            cellElement.className += ' checkerboard-board__cell--alt';
+                        }
+
+                        fragment.appendChild(cellElement);
+                        state.cells.push({
+                            el: cellElement,
+                            row: row,
+                            column: column,
+                            centerX: 0,
+                            centerY: 0,
+                            timeoutId: null
+                        });
+                    }
+                }
+
+                board.appendChild(fragment);
+                refreshCellGeometry();
+                startAmbient();
+            };
+
+            var queueBuild = function() {
+                if (state.resizeFrame) {
+                    window.cancelAnimationFrame(state.resizeFrame);
+                }
+
+                state.resizeFrame = window.requestAnimationFrame(function() {
+                    state.resizeFrame = null;
+                    buildBoard();
+                });
+            };
+
+            surface.addEventListener('mousemove', onPointerMove);
+            surface.addEventListener('mouseleave', function() {
+                if (!state.moveFrame) return;
+
+                window.cancelAnimationFrame(state.moveFrame);
+                state.moveFrame = null;
             });
+
+            $WIN.on('resize', queueBuild);
+            $WIN.on('load', buildBoard);
+
+            if (typeof reducedMotionQuery.addEventListener === 'function') {
+                reducedMotionQuery.addEventListener('change', queueBuild);
+                finePointerQuery.addEventListener('change', queueBuild);
+            } else if (typeof reducedMotionQuery.addListener === 'function') {
+                reducedMotionQuery.addListener(queueBuild);
+                finePointerQuery.addListener(queueBuild);
+            }
+
+            buildBoard();
         };
 
-        intro.addEventListener('mousemove', onPointerMove);
-        intro.addEventListener('mouseleave', function() {
-            if (!state.moveFrame) return;
-
-            window.cancelAnimationFrame(state.moveFrame);
-            state.moveFrame = null;
-        });
-
-        $WIN.on('resize', queueBuild);
-        $WIN.on('load', buildBoard);
-
-        if (typeof reducedMotionQuery.addEventListener === 'function') {
-            reducedMotionQuery.addEventListener('change', queueBuild);
-            finePointerQuery.addEventListener('change', queueBuild);
-        } else if (typeof reducedMotionQuery.addListener === 'function') {
-            reducedMotionQuery.addListener(queueBuild);
-            finePointerQuery.addListener(queueBuild);
-        }
-
-        buildBoard();
+        Array.prototype.forEach.call(surfaces, setupBoard);
     };
 
 

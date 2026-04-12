@@ -48,7 +48,7 @@
                 <li class="current"><a class="smoothscroll" href="#intro" title="intro">Home</a></li>
                 <li><a class="smoothscroll" href="#about" title="about">About</a></li>
                 <li><a class="smoothscroll" href="#projects" title="projects">Projects</a></li>
-                <li><a class="smoothscroll" href="#contact" title="contact us">Contact</a></li>	
+                <li><a class="smoothscroll" href="#contact" title="contact us">Contact</a></li>
             </ul>
 
             <ul class="header-social">
@@ -64,11 +64,11 @@
 
     <!-- intro
     ================================================== -->
-    <section id="intro" class="s-intro target-section">
-        <div class="intro-board" aria-hidden="true"></div>
+    <section id="intro" class="s-intro target-section checkerboard-surface">
+        <div class="checkerboard-board intro-board" aria-hidden="true"></div>
         <div class="row intro-content">
             <div class="column large-9 mob-full intro-text">
-                
+
                 <h1>
                     Hi, <br>
                     I'm Maanek Sharma <br>
@@ -83,39 +83,81 @@
 
     <!-- about
     ================================================== -->
-    <section id="about" class="s-about target-section">
+    <section id="about" class="s-about target-section checkerboard-surface">
+        <div class="checkerboard-board section-board" aria-hidden="true"></div>
 
         <div class="about-me">
 
             <div class="row about-me__content" data-aos="fade-up">
                 <div class="column large-full about-me__text">
-                    <p class="lead" style = "color: #ffffff;">
-                        Hello! I’m Maanek Sharma, a Computer Science graduate from the University of Windsor.<br><br>
-                        I’ve worked with Canada’s leading financial and consulting firms—automating critical workflows,  
-                        streamlining compliance reporting, and bolstering their security posture.<br><br>
-                        Growing up, I always heard that “safety is the number one priority,” and I believe that principle  
-                        applies not only to our physical and mental well-being but to our digital lives as well.<br><br>
-                        Technology’s rapid advancement has been a true blessing for humanity, and I’m passionate about  
-                        being on the front lines of securing it for the future.
-
+                    <p class="lead">
+                        I'm a Computer Science graduate specializing in Networks and Cybersecurity, focused on security operations, cloud, and automation.
+                    </p>
+                    <p>
+                        Across TD, BDO, and AlphaKOR, I've built SIEM detections, automated Microsoft 365 and Azure AD workflows, and supported real incident response. At AlphaKOR, I've worked on the front lines handling onboarding and offboarding, identity and device management, and improving client environments through automation and process-driven improvements.
+                    </p>
+                    <p>
+                        I build and execute systems that work, then refine them to deliver real results for real users. Driven by continuous learning, I focus on becoming a high-value (100x) engineer who consistently outperforms expectations.
                     </p>
                 </div>
             </div>
-    
+
+            <div class="row about-quote-row" data-aos="fade-up">
+                <div class="column large-full">
+                    <p class="about-me__quote">
+                        "Don't waste your time chasing butterflies. Mend your garden, and the butterflies will come."
+                    </p>
+                </div>
+            </div>
+
+            <div class="row about-signals" data-aos="fade-up">
+                <div class="column large-full">
+                    <p class="about-signals__eyebrow">Experience Snapshot</p>
+
+                    <div class="about-signals__grid">
+                        <article class="about-signal">
+                            <span class="about-signal__value">20+ Onboards/Month</span>
+                            <p>
+                                Managed end-to-end onboarding and offboarding workflows including provisioning, Intune enrollment, device configuration, mailbox conversion, and access revocation.
+                            </p>
+                        </article>
+
+                        <article class="about-signal">
+                            <span class="about-signal__value">40+ Tickets/Week</span>
+                            <p>
+                                Resolved 40+ tickets weekly while serving as an escalation point in a fast-paced managed IT environment with high uptime and response expectations.
+                            </p>
+                        </article>
+
+                        <article class="about-signal">
+                            <span class="about-signal__value">SIEM + SOC</span>
+                            <p>
+                                Built Microsoft Sentinel use-cases, wrote KQL and SPL queries, and supported phishing detection, threat hunting, and incident response investigations.
+                            </p>
+                        </article>
+
+                        <article class="about-signal">
+                            <span class="about-signal__value">Automation</span>
+                            <p>
+                                Shipped Microsoft Graph API reporting pipelines, MSSQL-backed data flows, and Grafana dashboards for cybersecurity KPIs and service health.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
         </div> <!-- end about-me -->
     </section> <!-- end s-about -->
 
     <!-- works
     ================================================== -->
-    <section id="projects" class="s-projects ss-dark target-section">
+    <section id="projects" class="s-projects ss-dark target-section checkerboard-surface">
+        <div class="checkerboard-board section-board" aria-hidden="true"></div>
 
         <div class="row heading-block heading-block--center" data-aos="fade-up">
             <div class="column large-full">
                 <p class="section-desc">
                     Projects
-                </p>
-                <p class="projects-intro">
-                    A tighter showcase of the work that best reflects where the portfolio is headed now.
                 </p>
             </div>
         </div> <!-- end heading-block -->
@@ -128,21 +170,28 @@
                     </div>
 
                     <div class="project-card__body">
-                        <p class="project-card__eyebrow">Finance Product</p>
+                        <p class="project-card__eyebrow">Live Product</p>
                         <h4 class="project-card__title">STACKED</h4>
                         <p class="project-card__summary">
-                            A finance product concept built around a sharper dashboard, clearer decision surfaces, and a cleaner product system for the web.
+                            A dividend and portfolio tracker built to turn passive holdings into clearer decisions. The product combines portfolio monitoring, income tracking, and real-time market data in one React Native experience instead of forcing users back to spreadsheets.
                         </p>
 
+                        <ul class="project-card__details">
+                            <li>Built with React Native, TypeScript, and Supabase, with Row Level Security to keep user portfolio data isolated and secure.</li>
+                            <li>Added OpenAI-powered insights and Yahoo Finance data so the app does more than display numbers; it helps users understand what is changing in the portfolio.</li>
+                        </ul>
+
                         <div class="project-card__stack" aria-label="STACKED technology stack">
-                            <span>Expo Router</span>
-                            <span>React Native Web</span>
+                            <span>React Native</span>
+                            <span>TypeScript</span>
+                            <span>Supabase</span>
+                            <span>OpenAI API</span>
+                            <span>Yahoo Finance API</span>
                             <span>Vercel</span>
                         </div>
 
                         <div class="project-card__actions">
                             <a href="https://stackedfinance.vercel.app/" class="project-card__action project-card__action--primary" target="_blank" rel="noopener noreferrer">Open Live App</a>
-                            <a href="https://stackedfinance.vercel.app/" class="project-card__action" target="_blank" rel="noopener noreferrer">stackedfinance.vercel.app</a>
                         </div>
                     </div>
                 </article>
@@ -153,16 +202,23 @@
                     </div>
 
                     <div class="project-card__body">
-                        <p class="project-card__eyebrow">Security + Verification</p>
+                        <p class="project-card__eyebrow">Security + Integrity</p>
                         <h4 class="project-card__title">Document Verification Platform</h4>
                         <p class="project-card__summary">
-                            A blockchain-backed verification workflow for documents, pairing tamper-resistant records with Django-based application logic.
+                            Built for academic credential verification, where a document is only useful if its authenticity can be proven. The platform hashes uploaded files, records proofs on-chain, and gives users a simple workflow to confirm whether a document has been altered.
                         </p>
 
+                        <ul class="project-card__details">
+                            <li>Connected a Django application to a Ganache-based blockchain environment through Web3.py so uploads and verification could happen through a normal web interface.</li>
+                            <li>Used SHA-256 hashing and re-upload verification to compare stored blockchain records against submitted files and flag authentic versus inauthentic documents.</li>
+                        </ul>
+
                         <div class="project-card__stack" aria-label="Document Verification Platform technology stack">
-                            <span>Solidity</span>
                             <span>Django</span>
-                            <span>Python Web3</span>
+                            <span>Web3.py</span>
+                            <span>Ganache</span>
+                            <span>Solidity</span>
+                            <span>SQLite</span>
                         </div>
 
                         <div class="project-card__actions">
@@ -178,16 +234,23 @@
                     </div>
 
                     <div class="project-card__body">
-                        <p class="project-card__eyebrow">Mobile Product</p>
+                        <p class="project-card__eyebrow">Personal Finance</p>
                         <h4 class="project-card__title">Loan Repayment App</h4>
                         <p class="project-card__summary">
-                            An Android app concept focused on making student loan repayment easier to track, understand, and act on day to day.
+                            An Android app designed to make student debt less opaque and more manageable. Instead of stopping at a basic calculator, it combines repayment planning, budgeting, reminders, and educational resources so users can decide what to pay and when.
                         </p>
 
+                        <ul class="project-card__details">
+                            <li>Used Firebase Auth and Firestore to support sign-in, saved profiles, budgeting data, and personalized loan repayment settings.</li>
+                            <li>Built repayment simulations, extra-payment planning, charts, due-date notifications, and a Canada-focused resource hub to turn the app into a practical decision tool.</li>
+                        </ul>
+
                         <div class="project-card__stack" aria-label="Loan Repayment App technology stack">
-                            <span>Kotlin</span>
                             <span>Java</span>
                             <span>Android Studio</span>
+                            <span>Firebase Auth</span>
+                            <span>Firestore</span>
+                            <span>MPAndroidChart</span>
                         </div>
 
                         <div class="project-card__actions">
@@ -203,15 +266,21 @@
                     </div>
 
                     <div class="project-card__body">
-                        <p class="project-card__eyebrow">Desktop Utility</p>
+                        <p class="project-card__eyebrow">Desktop UX</p>
                         <h4 class="project-card__title">MS Paint Rework</h4>
                         <p class="project-card__summary">
-                            A lightweight paint remake built around direct tools, quick drawing interactions, and a desktop-first utility workflow.
+                            A Naruto-themed remake of MS Paint focused on making a small desktop project feel polished and usable. The work went beyond basic drawing tools and pushed into the details that make a desktop app feel responsive instead of purely academic.
                         </p>
+
+                        <ul class="project-card__details">
+                            <li>Expanded the toolset with spray paint, stamps, backgrounds, undo and redo, save and load, music controls, and improved rectangle and ellipse behavior.</li>
+                            <li>Focused on usability details like active-tool highlighting, mouse position feedback, size previews, palette state, and cleaner canvas interaction to reduce user confusion.</li>
+                        </ul>
 
                         <div class="project-card__stack" aria-label="MS Paint Rework technology stack">
                             <span>Python</span>
-                            <span>GUI Desktop App</span>
+                            <span>Pygame</span>
+                            <span>Desktop UI</span>
                         </div>
 
                         <div class="project-card__actions">
@@ -227,18 +296,19 @@
 
     <!-- contact
     ================================================== -->
-    <section id="contact" class="s-contact ss-dark target-section" >
-        
+    <section id="contact" class="s-contact ss-dark target-section checkerboard-surface">
+        <div class="checkerboard-board section-board" aria-hidden="true"></div>
+
         <div class="row contact-infos" data-aos="fade-up" data-aos-anchor=".contact-main">
             <br><br><br><br><br><br>
             <p>Ready to connect, create, and conquer the future.</p>
 
-            
+
 
             <div class="column large-7 medium-full contact-social">
                 <h4>Socials</h4>
                 <ul>
-                    
+
                     <li><a href="https://www.linkedin.com/in/maanek-sharma/" title="LinkedIn">LinkedIn</a></li>
                     <li><a href="https://github.com/MaanekSharma" title="Github">Github</a></li>
                 </ul>
@@ -255,3 +325,4 @@
     <script src="js/main.js"></script>
 
 </body>
+</html>

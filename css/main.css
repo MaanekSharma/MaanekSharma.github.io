@@ -1853,17 +1853,38 @@ input::-moz-focus-inner {
  * # intro 
  *
  * ------------------------------------------------------------------- */
+.checkerboard-surface {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.checkerboard-surface > *:not(.checkerboard-board) {
+  position: relative;
+  z-index: 1;
+}
+
 .s-intro {
-  --intro-dark: #020202;
-  --intro-mid: #090909;
-  --intro-edge: rgba(255, 255, 255, 0.04);
+  --board-dark: #020202;
+  --board-mid: #14040b;
+  --board-edge: rgba(207, 23, 103, 0.08);
+  --board-flip: #cf1767;
+  --board-opacity: 1;
   position: relative;
   width: 100%;
   height: 100vh;
   min-height: 792px;
   background-color: #000000;
-  overflow: hidden;
-  isolation: isolate;
+}
+
+.s-about,
+.s-projects,
+.s-contact {
+  --board-dark: #010101;
+  --board-mid: #11040a;
+  --board-edge: rgba(207, 23, 103, 0.05);
+  --board-flip: #cf1767;
+  --board-opacity: 0.46;
 }
 
 .s-intro::before {
@@ -1877,7 +1898,7 @@ input::-moz-focus-inner {
   z-index: 1;
 }
 
-.intro-board {
+.checkerboard-board {
   position: absolute;
   inset: 0;
   display: grid;
@@ -1886,15 +1907,16 @@ input::-moz-focus-inner {
   perspective: 1400px;
   pointer-events: none;
   z-index: 0;
+  opacity: var(--board-opacity, 1);
 }
 
-.intro-board__cell {
+.checkerboard-board__cell {
   --flip-angle: 180deg;
   --tile-glow: 0.18;
   box-sizing: border-box;
   position: relative;
-  background-color: var(--intro-dark);
-  border: 1px solid var(--intro-edge);
+  background-color: var(--board-dark);
+  border: 1px solid var(--board-edge);
   transform: rotateX(0deg) rotateY(0deg) scale(1.01);
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -1903,22 +1925,22 @@ input::-moz-focus-inner {
   will-change: transform;
 }
 
-.intro-board__cell--alt {
-  background-color: var(--intro-mid);
+.checkerboard-board__cell--alt {
+  background-color: var(--board-mid);
 }
 
-.intro-board__cell::before {
+.checkerboard-board__cell::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-color: #ffffff;
+  background-color: var(--board-flip);
   transform: rotateX(180deg);
   backface-visibility: hidden;
 }
 
-.intro-board__cell.is-active {
+.checkerboard-board__cell.is-active {
   transform: rotateX(var(--flip-angle)) rotateY(0deg) scale(0.985);
-  box-shadow: 0 0 28px rgba(255, 255, 255, var(--tile-glow));
+  box-shadow: 0 0 28px rgba(207, 23, 103, var(--tile-glow));
 }
 
 .intro-content {
@@ -2135,6 +2157,82 @@ input::-moz-focus-inner {
   margin-top: 4.8rem;
 }
 
+.s-about .about-me__text p {
+  font-family: "Lora", serif;
+  font-size: 1.9rem;
+  line-height: 1.85;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.s-about .about-me__text .lead {
+  font-family: "Lora", serif;
+  font-size: 2.5rem;
+  line-height: 1.72;
+  color: #ffffff;
+  margin-bottom: 2.8rem;
+}
+
+.about-quote-row {
+  margin-top: 2rem;
+}
+
+.about-me__quote {
+  margin: 0;
+  max-width: 82rem;
+  font-family: "Lora", serif;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.about-signals {
+  margin-top: 6.4rem;
+}
+
+.about-signals__eyebrow {
+  margin: 0 0 2.4rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: .48rem;
+  color: #cf1767;
+}
+
+.about-signals__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.4rem;
+}
+
+.about-signal {
+  min-height: 0;
+  padding: 2.6rem 2.8rem 2.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2.4rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.018) 100%);
+  box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.24);
+}
+
+.about-signal__value {
+  display: block;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: -.03rem;
+  color: #ffffff;
+}
+
+.about-signal p {
+  margin: 1.4rem 0 0;
+  font-family: "Lora", serif;
+  font-size: 1.55rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.74);
+}
+
 .about-me__buttons .column:first-child {
   padding-right: 32px;
 }
@@ -2312,6 +2410,10 @@ input::-moz-focus-inner {
     column-gap: 40px;
   }
 
+  .s-about .about-me__text .lead {
+    font-size: 2.3rem;
+  }
+
   .about-me__buttons .column:first-child {
     padding-right: 20px;
   }
@@ -2333,6 +2435,10 @@ input::-moz-focus-inner {
 @media screen and (max-width:900px) {
   .s-about .row {
     max-width: 700px;
+  }
+
+  .about-signals__grid {
+    grid-template-columns: 1fr;
   }
 
   .about-me__buttons .column:first-child {
@@ -2381,6 +2487,27 @@ input::-moz-focus-inner {
 }
 
 @media screen and (max-width:600px) {
+  .s-about .about-me__text .lead {
+    font-size: 2.1rem;
+    line-height: 1.68;
+  }
+
+  .s-about .about-me__text p {
+    font-size: 1.75rem;
+  }
+
+  .about-signals {
+    margin-top: 5.2rem;
+  }
+
+  .about-me__quote {
+    font-size: 1.45rem;
+  }
+
+  .about-signal {
+    padding: 2.2rem 2.2rem 2.4rem;
+  }
+
   .about-me__buttons .column:first-child,
   .about-experience__timeline .column:first-child {
     padding-right: 10px;
@@ -2727,9 +2854,7 @@ input::-moz-focus-inner {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 18% 16%, rgba(207, 23, 103, 0.22) 0%, rgba(207, 23, 103, 0) 34%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0) 56%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0) 56%);
 }
 
 .project-card__body {
@@ -2865,6 +2990,37 @@ input::-moz-focus-inner {
 .project-card__summary {
   margin: 1.8rem 0 0;
   color: rgba(255, 255, 255, 0.74);
+}
+
+.project-card__details {
+  margin: 1.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-card__details li {
+  position: relative;
+  padding-left: 1.8rem;
+  margin-bottom: 1.2rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.55rem;
+  line-height: 1.72;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.project-card__details li:last-child {
+  margin-bottom: 0;
+}
+
+.project-card__details li::before {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  width: .7rem;
+  height: .7rem;
+  border-radius: 50%;
+  background-color: #cf1767;
 }
 
 .project-card .project-card__actions {
