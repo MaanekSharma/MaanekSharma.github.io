@@ -284,25 +284,50 @@
    /* Preloader
     * -------------------------------------------------- */
     var ssPreloader = function() {
-        
-        $("html").addClass('ss-preload');
 
-        $WIN.on('load', function() {
+        var didHide = false,
+            fallbackTimer = null,
+            $html = $("html"),
+            $loader = $("#loader"),
+            $preloader = $("#preloader");
 
-            //force page scroll position to top at page refresh
-            $('html, body').animate({ scrollTop: 0 }, 'normal');
+        var hidePreloader = function() {
+            if (didHide) return;
 
-            // will first fade out the loading animation 
-            $("#loader").fadeOut("slow", function() {
-                // will fade out the whole DIV that covers the website.
-                $("#preloader").delay(300).fadeOut("slow");
-            }); 
-            
-            // for hero content animations 
-            $("html").removeClass('ss-preload');
-            $("html").addClass('ss-loaded');
-        
-        });
+            didHide = true;
+
+            if (fallbackTimer) {
+                window.clearTimeout(fallbackTimer);
+                fallbackTimer = null;
+            }
+
+            // force page scroll position to top at page refresh
+            $('html, body').stop(true).animate({ scrollTop: 0 }, 'normal');
+
+            var fadePreloader = function() {
+                if (!$preloader.length) return;
+
+                $preloader.stop(true, true).delay(300).fadeOut("slow");
+            };
+
+            if ($loader.length) {
+                $loader.stop(true, true).fadeOut("slow", fadePreloader);
+            } else {
+                fadePreloader();
+            }
+
+            $html.removeClass('ss-preload');
+            $html.addClass('ss-loaded');
+        };
+
+        $html.addClass('ss-preload');
+        $WIN.one('load', hidePreloader);
+
+        fallbackTimer = window.setTimeout(hidePreloader, 4000);
+
+        if (document.readyState === 'complete') {
+            window.setTimeout(hidePreloader, 0);
+        }
     };
 
 
@@ -489,7 +514,7 @@
 
    /* Animate On Scroll
     * ------------------------------------------------------ */
-    var ssAOS = function() {
+   var ssAOS = function() {
         
         AOS.init( {
             offset: 200,
@@ -503,19 +528,32 @@
     };
 
 
+   /* Safe Initialize
+    * ------------------------------------------------------ */
+    var safeInit = function(name, fn) {
+        try {
+            fn();
+        } catch (error) {
+            if (window.console && typeof window.console.error === 'function') {
+                window.console.error('Failed to initialize ' + name + '.', error);
+            }
+        }
+    };
+
+
    /* Initialize
     * ------------------------------------------------------ */
     (function clInit() {
 
-        ssIntroCheckerboard();
         ssPreloader();
-        ssMenuOnScrolldown();
-        ssMobileMenu();
-        ssWaypoints();
-        ssSlickSlider();
-        ssSmoothScroll();
-        ssAlertBoxes();
-        ssAOS();
+        safeInit('checkerboards', ssCheckerboards);
+        safeInit('menu on scrolldown', ssMenuOnScrolldown);
+        safeInit('mobile menu', ssMobileMenu);
+        safeInit('waypoints', ssWaypoints);
+        safeInit('slick slider', ssSlickSlider);
+        safeInit('smooth scroll', ssSmoothScroll);
+        safeInit('alert boxes', ssAlertBoxes);
+        safeInit('AOS', ssAOS);
 
     })();
 
