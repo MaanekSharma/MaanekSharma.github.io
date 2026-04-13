@@ -24,18 +24,13 @@
     * ------------------------------------------------------ */
     var ssCheckerboards = function() {
 
-        var surfaces = document.querySelectorAll('.checkerboard-surface');
+        var surface = document.querySelector('.s-intro.checkerboard-surface'),
+            board = surface ? surface.querySelector('.checkerboard-board') : null;
 
-        if (!surfaces.length) return;
-
-        var setupBoard = function(surface) {
-            var board = surface.querySelector('.checkerboard-board');
-
-            if (!board) return;
+        if (!surface || !board) return;
 
             var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)'),
                 finePointerQuery = window.matchMedia('(hover: hover) and (pointer: fine)'),
-                isIntroSurface = surface.classList.contains('s-intro'),
                 state = {
                     columns: 0,
                     rows: 0,
@@ -50,9 +45,9 @@
                 };
 
             var getCellSize = function(width) {
-                if (width <= 600) return isIntroSurface ? 18 : 20;
-                if (width <= 800) return isIntroSurface ? 24 : 26;
-                return isIntroSurface ? 30 : 34;
+                if (width <= 600) return 18;
+                if (width <= 800) return 24;
+                return 30;
             };
 
             var refreshCellGeometry = function() {
@@ -275,9 +270,7 @@
             }
 
             buildBoard();
-        };
 
-        Array.prototype.forEach.call(surfaces, setupBoard);
     };
 
 

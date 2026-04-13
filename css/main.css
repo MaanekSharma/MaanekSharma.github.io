@@ -1853,13 +1853,13 @@ input::-moz-focus-inner {
  * # intro 
  *
  * ------------------------------------------------------------------- */
-.checkerboard-surface {
+.s-intro.checkerboard-surface {
   position: relative;
   overflow: hidden;
   isolation: isolate;
 }
 
-.checkerboard-surface > *:not(.checkerboard-board) {
+.s-intro.checkerboard-surface > *:not(.checkerboard-board) {
   position: relative;
   z-index: 1;
 }
@@ -1875,16 +1875,6 @@ input::-moz-focus-inner {
   height: 100vh;
   min-height: 792px;
   background-color: #000000;
-}
-
-.s-about,
-.s-projects,
-.s-contact {
-  --board-dark: #010101;
-  --board-mid: #11040a;
-  --board-edge: rgba(207, 23, 103, 0.05);
-  --board-flip: #cf1767;
-  --board-opacity: 0.46;
 }
 
 .s-intro::before {
