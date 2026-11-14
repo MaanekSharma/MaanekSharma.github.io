@@ -300,11 +300,11 @@
             var fadePreloader = function() {
                 if (!$preloader.length) return;
 
-                $preloader.stop(true, true).delay(300).fadeOut("slow");
+                $preloader.stop(true, true).fadeOut(300);
             };
 
             if ($loader.length) {
-                $loader.stop(true, true).fadeOut("slow", fadePreloader);
+                $loader.stop(true, true).fadeOut(200, fadePreloader);
             } else {
                 fadePreloader();
             }
@@ -314,13 +314,17 @@
         };
 
         $html.addClass('ss-preload');
-        $WIN.one('load', hidePreloader);
 
-        fallbackTimer = window.setTimeout(hidePreloader, 4000);
-
-        if (document.readyState === 'complete') {
+        // Hide once the DOM is ready instead of waiting for the window load
+        // event (every image and font) — much faster perceived load. The
+        // fallback timer stays as a safety net only.
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', hidePreloader);
+        } else {
             window.setTimeout(hidePreloader, 0);
         }
+
+        fallbackTimer = window.setTimeout(hidePreloader, 2500);
     };
 
 
