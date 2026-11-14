@@ -2310,6 +2310,27 @@ input::-moz-focus-inner {
   text-align: right;
 }
 
+.exp-timeline__group {
+  margin: 3.2rem 0 .4rem 3.2rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: .4rem;
+  color: #cf1767;
+}
+
+.exp-timeline__group:first-child {
+  margin-top: .2rem;
+}
+
+.exp-timeline__row--education::before {
+  background-color: transparent;
+  border: 2px solid #cf1767;
+  box-sizing: border-box;
+}
+
 .skills-group {
   margin-top: 2.8rem;
 }
