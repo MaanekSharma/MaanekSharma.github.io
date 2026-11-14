@@ -2223,6 +2223,142 @@ input::-moz-focus-inner {
   color: rgba(255, 255, 255, 0.74);
 }
 
+/* -------------------------------------------------------------------
+ * ## about: experience timeline + skills (2026 rebrand)
+ * ------------------------------------------------------------------- */
+.about-timeline-row,
+.about-skills-row {
+  margin-top: 9.6rem;
+}
+
+.about-quote-row {
+  margin-top: 9.6rem;
+}
+
+.about-block__eyebrow {
+  margin: 0 0 2.4rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: .48rem;
+  color: #cf1767;
+}
+
+.exp-timeline {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.exp-timeline::before {
+  content: "";
+  position: absolute;
+  left: .5rem;
+  top: 1.4rem;
+  bottom: 1.4rem;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+.exp-timeline__row {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 2.4rem;
+  padding: 1.4rem 0 1.4rem 3.2rem;
+}
+
+.exp-timeline__row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2.3rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background-color: #cf1767;
+}
+
+.exp-timeline__main {
+  display: flex;
+  flex-direction: column;
+}
+
+.exp-timeline__role {
+  font-family: "Lora", serif;
+  font-size: 2rem;
+  line-height: 1.35;
+  color: #ffffff;
+}
+
+.exp-timeline__org {
+  margin-top: .4rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: .14rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.exp-timeline__dates {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  padding-top: .6rem;
+  text-align: right;
+}
+
+.skills-group {
+  margin-top: 2.8rem;
+}
+
+.skills-group__label {
+  margin: 0 0 1.2rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: .3rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skills-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3.6rem;
+  padding: 0 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.035);
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: .16rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media screen and (max-width:600px) {
+  .exp-timeline__row {
+    flex-direction: column;
+    gap: .4rem;
+  }
+
+  .exp-timeline__dates {
+    text-align: left;
+    padding-top: 0;
+  }
+}
+
 .about-me__buttons .column:first-child {
   padding-right: 32px;
 }
